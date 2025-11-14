@@ -50,10 +50,12 @@ function formatBlock(block: string, index: number): React.ReactNode | null {
   }
 
   if (isMajorHeading(block)) {
+    const headingId = headingIdFrom(block)
     return (
       <h2
         key={`heading-${index}`}
-        className="pt-6 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500 dark:text-zinc-400"
+        id={headingId || undefined}
+        className="scroll-mt-32 pt-6 text-xs font-semibold uppercase tracking-[0.35em] text-zinc-500 dark:text-zinc-400"
       >
         {block}
       </h2>
@@ -62,8 +64,13 @@ function formatBlock(block: string, index: number): React.ReactNode | null {
 
   if (isSubheading(block)) {
     const label = block.replace(/:$/, '')
+    const headingId = headingIdFrom(label)
     return (
-      <h3 key={`subheading-${index}`} className="text-xl font-semibold text-zinc-900 dark:text-zinc-100">
+    <h3
+        key={`subheading-${index}`}
+        id={headingId || undefined}
+        className="scroll-mt-28 text-xl font-semibold text-zinc-900 dark:text-zinc-100"
+      >
         {label}
       </h3>
     )
@@ -85,14 +92,6 @@ function formatBlock(block: string, index: number): React.ReactNode | null {
         className="rounded-2xl bg-amber-50 p-4 text-sm font-semibold italic text-amber-900 dark:bg-amber-900/20 dark:text-amber-200"
       >
         {normalize(block)}
-      </p>
-    )
-  }
-
-  if (/^Read more$/i.test(block)) {
-    return (
-      <p key={`cta-${index}`} className="text-sm font-semibold italic text-emerald-600 dark:text-emerald-400">
-        Read more →
       </p>
     )
   }
@@ -199,4 +198,17 @@ function isNotice(text: string): boolean {
 
 function notEmpty<T>(value: T | null | undefined): value is T {
   return value !== null && value !== undefined
+}
+
+function headingIdFrom(text: string): string {
+  const trimmed = text.replace(/^[\d.\s-]+/, '').trim()
+  return slugify(trimmed)
+}
+
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '')
 }

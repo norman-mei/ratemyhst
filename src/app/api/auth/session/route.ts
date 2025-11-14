@@ -27,6 +27,10 @@ export async function GET() {
     user: {
       id: user.id,
       email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      schoolName: user.schoolName,
+      graduationYear: user.graduationYear,
     },
     progressSummaries: summaries,
     uiPreferences: normalizeUiPreferences(user.uiPreferences),

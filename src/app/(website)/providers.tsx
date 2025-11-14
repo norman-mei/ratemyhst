@@ -4,8 +4,11 @@ import { createContext, useEffect, useRef } from 'react'
 import { usePathname } from 'next/navigation'
 
 import ThemeProviderClient from '@/components/ThemeProviderClient'
+import { SettingsModalPortal } from '@/components/SettingsModalPortal'
 import { AuthProvider } from '@/context/AuthContext'
+import { SavedTeachersProvider } from '@/context/SavedTeachersContext'
 import { SettingsProvider } from '@/context/SettingsContext'
+import { UserSettingsProvider } from '@/context/UserSettingsContext'
 
 function usePrevious<T>(value: T) {
   const ref = useRef<T>()
@@ -27,7 +30,14 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <AppContext.Provider value={{ previousPathname }}>
       <ThemeProviderClient>
         <SettingsProvider>
-          <AuthProvider>{children}</AuthProvider>
+          <AuthProvider>
+            <SavedTeachersProvider>
+              <UserSettingsProvider>
+                {children}
+                <SettingsModalPortal />
+              </UserSettingsProvider>
+            </SavedTeachersProvider>
+          </AuthProvider>
         </SettingsProvider>
       </ThemeProviderClient>
     </AppContext.Provider>

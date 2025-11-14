@@ -1,5 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "windows"]
 }
 
 datasource db {
@@ -11,11 +12,20 @@ enum VerificationType {
   EMAIL
 }
 
+enum TakeAgainResponse {
+  YES
+  NO
+}
+
 model User {
   id               String               @id @default(cuid())
   email            String               @unique
   passwordHash     String
   emailVerifiedAt  DateTime?
+  firstName        String?
+  lastName         String?
+  schoolName       String?
+  graduationYear   Int?
   createdAt        DateTime             @default(now())
   updatedAt        DateTime             @updatedAt
   uiPreferences    Json?
@@ -23,6 +33,7 @@ model User {
   sessions         Session[]
   verification     VerificationToken[]
   passwordResets   PasswordResetToken[]
+  savedTeachers    SavedTeacher[]
 }
 
 model Session {
@@ -71,4 +82,92 @@ model Progress {
   updatedAt       DateTime @updatedAt
 
   @@unique([userId, citySlug])
+}
+
+model School {
+  id        String    @id @default(cuid())
+  slug      String    @unique
+  name      String
+  city      String?
+  state     String?
+  zipCode   String?
+  district  String?
+  ratingOverall     Float   @default(0)
+  ratingCount       Int     @default(0)
+  ratingLocation    Float   @default(0)
+  ratingSafety      Float   @default(0)
+  ratingReputation  Float   @default(0)
+  ratingOpportunities Float @default(0)
+  ratingHappiness   Float   @default(0)
+  ratingClubs       Float   @default(0)
+  ratingInternet    Float   @default(0)
+  ratingFacilities  Float   @default(0)
+  ratingSocial      Float   @default(0)
+  ratingFood        Float   @default(0)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  teachers  Teacher[]
+  reviews   SchoolReview[]
+}
+
+model Teacher {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  firstName   String
+  lastName    String
+  fullName    String
+  department  String?
+  grades      Json
+  pronouns    String?
+  tagline     String?
+  school      School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  reviews     Review[]
+  savedBy     SavedTeacher[]
+}
+
+model Review {
+  id          String            @id @default(cuid())
+  teacher     Teacher           @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId   String
+  author      String
+  rating      Float
+  difficulty  Float
+  comment     String
+  courseCode  String
+  takeAgain   TakeAgainResponse
+  tags        Json
+  createdAt   DateTime          @default(now())
+}
+
+model SchoolReview {
+  id             String   @id @default(cuid())
+  school         School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  schoolId       String
+  overall        Float
+  location       Float
+  safety         Float
+  reputation     Float
+  opportunities  Float
+  happiness      Float
+  clubs          Float
+  internet       Float
+  facilities     Float
+  social         Float
+  food           Float
+  comment        String
+  createdAt      DateTime @default(now())
+}
+
+model SavedTeacher {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  teacher   Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  teacherId String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, teacherId])
 }

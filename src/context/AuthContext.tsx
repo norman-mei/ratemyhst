@@ -18,6 +18,10 @@ import {
 type AuthUser = {
   id: string
   email: string
+  firstName?: string | null
+  lastName?: string | null
+  schoolName?: string | null
+  graduationYear?: number | null
 }
 
 type ProgressSummaries = Record<string, number>

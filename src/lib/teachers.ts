@@ -1,79 +1,31 @@
-export type Review = {
-  id: string
-  student: string
-  graduationYear: number
-  rating: number
-  difficulty: number
-  takeAgain: 'Yes' | 'No' | 'Maybe'
-  date: string
-  classTaken: string
-  comment: string
-  tags: string[]
+export type RatingValue = 1 | 2 | 3 | 4 | 5
+
+export const RATING_VALUES: RatingValue[] = [5, 4, 3, 2, 1]
+
+export function calculateAverageRating(reviews: { rating: number }[]): number {
+  if (!reviews.length) {
+    return 0
+  }
+
+  const total = reviews.reduce((sum, review) => sum + review.rating, 0)
+  return total / reviews.length
 }
 
-export type Teacher = {
-  id: string
-  slug: string
-  name: string
-  pronouns: string
-  subject: string
-  school: string
-  district: string
-  state: string
-  region: string
-  rating: number
-  ratingCount: number
-  difficulty: number
-  wouldTakeAgain: number
-  yearsExperience: number
-  credentials: string
-  tagline: string
-  tags: string[]
-  teachingStyle: string[]
-  highlights: string[]
-  impactStats: { label: string; value: string }[]
-  lastReview: string
-  reviews: Review[]
-}
+export function getRatingDistribution(
+  reviews: { rating: number }[],
+): Record<RatingValue, number> {
+  const base: Record<RatingValue, number> = {
+    5: 0,
+    4: 0,
+    3: 0,
+    2: 0,
+    1: 0,
+  }
 
-export type School = {
-  id: string
-  name: string
-  district: string
-  state: string
-  rating: number
-  reviewCount: number
-  standoutPrograms: string[]
-  topSubjects: string[]
-  featuredTeachers: string[]
-}
+  reviews.forEach((review) => {
+    const rounded = Math.min(5, Math.max(1, Math.round(review.rating))) as RatingValue
+    base[rounded] += 1
+  })
 
-// Placeholder collections — real data will be injected once verified submissions go live.
-export const teachers: Teacher[] = []
-export const schools: School[] = []
-
-export const systemStats = {
-  teachersRated: 0,
-  schoolsCovered: 0,
-  reviewsPublished: 0,
-}
-
-export function findTeacherBySlug(slug: string) {
-  return teachers.find((teacher) => teacher.slug === slug)
-}
-
-export function getTopTeachers(limit = 6) {
-  return teachers.slice(0, limit)
-}
-
-export function getStateOptions() {
-  return [] as string[]
-}
-
-export function getSubjectOptions() {
-  return [] as string[]
-}
-
-export function getRecentReviews(limit = 6) {
-  return []
+  return base
 }

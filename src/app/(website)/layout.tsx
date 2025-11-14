@@ -18,14 +18,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="h-full antialiased" suppressHydrationWarning>
-      <body className="flex h-full bg-zinc-50 dark:bg-black">
-        <Providers>
-          <div className="flex w-full">
-            <Layout>{children}</Layout>
-          </div>
-        </Providers>
-      </body>
-    </html>
+    <Providers>
+      <div className="flex min-h-screen bg-zinc-50 dark:bg-black">
+        <Layout>{children}</Layout>
+      </div>
+    </Providers>
   )
 }

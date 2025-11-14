@@ -20,55 +20,37 @@ This Terms of Use Agreement describes your rights and responsibilities relating 
 
 There are age and other eligibility requirements for this Site. This Site is governed by and operated under U.S. law.
 
-Read more
-
 Modifications to this Agreement
 
 We may modify this Terms of Use Agreement from time to time. We may post or display notices of material changes on the Site and/or e-mail you or notify you upon login about these changes; the form of such notice is at our discretion. Once we post them on the Site, these changes become effective immediately and if you use the Site after they become effective it will signify your agreement to be bound by the changes.
-
-Read more
 
 Rules of Conduct
 
 You agree not to use the Site in prohibited ways.
 
-Read more
-
 Shopping
 
 Additional Terms apply to any e-Commerce we make available through the Site.
-
-Read more
 
 Postings
 
 You are responsible for any content that you post (or which is posted under your name or username) on or through the Site and make certain representations and warranties regarding any content that you post. You also grant RateMyHST, LLC certain rights to use any such content. We reserve the right to review, monitor, edit and/or screen any content you post and, if we determine that a post does or may violate this Terms of Use Agreement, we may also take other actions such as refusing to allow you to post, revoking your right to use the Site and using other means to enforce the terms of this Terms of Use Agreement.
 
-Read more
-
 Deactivation/Termination of Your Registration or Use
 
 You may deactivate your account at any time. We may terminate your use of, and/or registration on, the Site at any time for any or no reason.
-
-Read more
 
 Disclaimer and Limitation of Liability
 
 You understand that the Site is made available "as is" and "as available" without any guaranty, representations and warranties. You understand that the Site and RateMyHST, LLC disclaim any and all warranties regarding the Site and are not liable for any loss or damage of any kind relating to the Site or this Agreement. The Site is maintained on servers in the U.S.
 
-Read more
-
 Indemnification
 
 You agree to indemnify the Site, RateMyHST, LLC and others as described from claims relating to your breach or violation of this Terms of Use Agreement, your use of the Site or the public posting or other permitted use of your posts.
 
-Read more
-
 Governing Law, Jurisdiction, Venue and Jury Trial Waiver
 
 Any claim relating to your use of the Site and this Agreement is subject to exclusive jurisdiction and venue in the state or federal courts in the Borough of Manhattan, New York City, State of New York. New York laws apply.
-
-Read more
 
 
 This Agreement covers the following areas:

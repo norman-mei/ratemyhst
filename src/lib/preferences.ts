@@ -1,3 +1,9 @@
+import { LANGUAGE_VALUES, type LanguageChoice } from '@/lib/languageContent'
+import {
+  normalizePersistableSettings,
+  type PersistableSettings,
+} from '@/lib/userSettings'
+
 type JsonRecord = Record<string, unknown>
 
 function isRecord(value: unknown): value is JsonRecord {
@@ -8,6 +14,8 @@ export type CollapsedSections = Record<string, boolean>
 
 export type UiPreferences = {
   collapsedSections?: CollapsedSections
+  language?: LanguageChoice
+  settings?: PersistableSettings
 }
 
 export function normalizeCollapsedSections(
@@ -28,6 +36,13 @@ export function normalizeCollapsedSections(
   return Object.keys(entries).length > 0 ? entries : undefined
 }
 
+function normalizeLanguage(value: unknown): LanguageChoice | undefined {
+  if (typeof value !== 'string') return undefined
+  return LANGUAGE_VALUES.includes(value as LanguageChoice)
+    ? (value as LanguageChoice)
+    : undefined
+}
+
 export function normalizeUiPreferences(value: unknown): UiPreferences {
   if (!isRecord(value)) {
     return {}
@@ -36,8 +51,14 @@ export function normalizeUiPreferences(value: unknown): UiPreferences {
   const collapsedSections = normalizeCollapsedSections(
     value.collapsedSections,
   )
+  const language = normalizeLanguage(value.language)
+  const settings = normalizePersistableSettings(value.settings)
 
-  return collapsedSections ? { collapsedSections } : {}
+  return {
+    ...(collapsedSections ? { collapsedSections } : {}),
+    ...(language ? { language } : {}),
+    ...(settings ? { settings } : {}),
+  }
 }
 
 export function mergeCollapsedSections(

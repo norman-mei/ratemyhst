@@ -1,9 +1,10 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useMemo, useState, type CSSProperties } from 'react'
 import Link from 'next/link'
 
 import { Container } from '@/components/Container'
+import { getRatingStyle } from '@/lib/ratingColors'
 import {
   teachers,
   getStateOptions,
@@ -236,64 +237,70 @@ export default function TeacherSearchSection() {
               conversation.
             </div>
           ) : (
-            filteredTeachers.map((teacher) => (
-              <Link
-                key={teacher.id}
-                href={`/teachers/${teacher.slug}`}
-                className="group flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
-                      {teacher.subject}
-                    </p>
-                    <p className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
-                      {teacher.name}{' '}
-                      <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
-                        ({teacher.pronouns})
-                      </span>
-                    </p>
-                    <p className="text-sm text-zinc-500 dark:text-zinc-400">
-                      {teacher.school}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-3xl font-semibold text-emerald-500 dark:text-emerald-300">
-                      {teacher.rating.toFixed(1)}
-                    </p>
-                    <p className="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                      Avg rating
-                    </p>
-                    <span className="mt-2 inline-flex items-center justify-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
-                      {(teacher.wouldTakeAgain * 100).toFixed(0)}% take again
-                    </span>
-                  </div>
-                </div>
-                <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">
-                  {teacher.tagline}
-                </p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {teacher.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+            filteredTeachers.map((teacher) => {
+              const ratingStyle = getRatingStyle(teacher.rating)
+              const badgeStyle = {
+                '--rating-gradient': ratingStyle.background,
+                '--rating-text': ratingStyle.textColor,
+              } as CSSProperties
+              return (
+                <Link
+                  key={teacher.id}
+                  href={`/teachers/${teacher.slug}`}
+                  className="group flex flex-col rounded-2xl border border-zinc-200/80 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:border-emerald-200 hover:shadow-lg dark:border-zinc-800 dark:bg-zinc-900"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-sm font-semibold uppercase tracking-wide text-emerald-600 dark:text-emerald-300">
+                        {teacher.subject}
+                      </p>
+                      <p className="mt-1 text-lg font-semibold text-zinc-900 dark:text-zinc-50">
+                        {teacher.name}{' '}
+                        <span className="text-sm font-medium text-zinc-500 dark:text-zinc-400">
+                          ({teacher.pronouns})
+                        </span>
+                      </p>
+                      <p className="text-sm text-zinc-500 dark:text-zinc-400">
+                        {teacher.school}
+                      </p>
+                    </div>
+                    <div className="flex flex-col items-center gap-2">
+                    <div
+                      className="rounded-2xl bg-white px-4 py-3 text-center shadow-inner [background-image:var(--rating-gradient)] [color:var(--rating-text)]"
+                      style={badgeStyle}
                     >
-                      {tag}
+                        <p className="text-3xl font-semibold">
+                          {teacher.rating > 0 ? teacher.rating.toFixed(1) : 'N/A'}
+                        </p>
+                      </div>
+                      <span className="inline-flex items-center justify-center rounded-full bg-emerald-50 px-3 py-1 text-xs font-semibold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-200">
+                        {(teacher.wouldTakeAgain * 100).toFixed(0)}% take again
+                      </span>
+                    </div>
+                  </div>
+                  <p className="mt-4 text-sm text-zinc-600 dark:text-zinc-300">
+                    {teacher.tagline}
+                  </p>
+                  <div className="mt-4 flex flex-wrap gap-2">
+                    {teacher.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-zinc-100 px-3 py-1 text-xs font-medium text-zinc-700 dark:bg-zinc-800 dark:text-zinc-200"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    <span>
+                      Difficulty {teacher.difficulty.toFixed(1)} •{' '}
+                      {teacher.ratingCount.toLocaleString()} reviews
                     </span>
-                  ))}
-                </div>
-                <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-zinc-500 dark:text-zinc-400">
-                  <span>
-                    Difficulty {teacher.difficulty.toFixed(1)} •{' '}
-                    {teacher.ratingCount.toLocaleString()} reviews
-                  </span>
-                  <span>Updated {formatDate(teacher.lastReview)}</span>
-                </div>
-                <span className="mt-4 inline-flex items-center text-sm font-semibold text-emerald-600 transition group-hover:translate-x-1 dark:text-emerald-300">
-                  View profile →
-                </span>
-              </Link>
-            ))
+                    <span>Updated {formatDate(teacher.lastReview)}</span>
+                  </div>
+                </Link>
+              )
+            })
           )}
         </div>
       </Container>
