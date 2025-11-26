@@ -64,7 +64,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   const skipPersistRef = useRef(false)
   const hydratedRef = useRef(false)
-  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const toastTimeoutRef = useRef<number | null>(null)
   const remoteLanguageRef = useRef<LanguageChoice | undefined>(undefined)
   const userChangeRef = useRef(false)
 
@@ -73,7 +73,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   const showToast = useCallback(() => {
     setToast({ visible: true, message: copy.toastSaved })
     if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current)
+      window.clearTimeout(toastTimeoutRef.current)
     }
     toastTimeoutRef.current = window.setTimeout(() => {
       setToast((prev) => ({ ...prev, visible: false }))
@@ -82,7 +82,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   const hideToast = useCallback(() => {
     if (toastTimeoutRef.current) {
-      clearTimeout(toastTimeoutRef.current)
+      window.clearTimeout(toastTimeoutRef.current)
       toastTimeoutRef.current = null
     }
     setToast((prev) => ({ ...prev, visible: false }))
@@ -91,7 +91,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     return () => {
       if (toastTimeoutRef.current) {
-        clearTimeout(toastTimeoutRef.current)
+        window.clearTimeout(toastTimeoutRef.current)
       }
     }
   }, [])
