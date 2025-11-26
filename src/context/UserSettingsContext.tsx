@@ -64,7 +64,7 @@ export function UserSettingsProvider({ children }: { children: ReactNode }) {
 
   const skipPersistRef = useRef(false)
   const hydratedRef = useRef(false)
-  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const toastTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null)
   const remoteLanguageRef = useRef<LanguageChoice | undefined>(undefined)
   const userChangeRef = useRef(false)
 
