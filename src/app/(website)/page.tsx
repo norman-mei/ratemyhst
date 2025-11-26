@@ -8,6 +8,8 @@ import {
   useState,
   type ChangeEvent,
   type CSSProperties,
+  type Dispatch,
+  type SetStateAction,
 } from 'react'
 import { useRouter } from 'next/navigation'
 import { Heart, Plus, Search, Shield, User, X } from 'lucide-react'
@@ -414,7 +416,7 @@ function SearchSection({
   teacherSearch: string
   setTeacherSearch: (value: string) => void
   searchMode: 'school' | 'teacher'
-  setSearchMode: (mode: 'school' | 'teacher') => void
+  setSearchMode: Dispatch<SetStateAction<'school' | 'teacher'>>
   copy: LanguageCopy
   schools: School[]
   activeSchool: School | null
