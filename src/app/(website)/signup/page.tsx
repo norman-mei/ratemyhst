@@ -1,4 +1,5 @@
 import SignupPageClient from '@/app/(website)/signup/SignupPageClient'
+import { Suspense } from 'react'
 
 export const metadata = {
   title: 'Sign up | RateMyHST',
@@ -6,6 +7,9 @@ export const metadata = {
 }
 
 export default function SignupPage() {
-  return <SignupPageClient />
+  return (
+    <Suspense fallback={null}>
+      <SignupPageClient />
+    </Suspense>
+  )
 }
-
