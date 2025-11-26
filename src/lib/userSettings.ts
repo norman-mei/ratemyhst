@@ -92,7 +92,7 @@ export function normalizeSettingsPayload(
   ]
   booleanKeys.forEach((key) => {
     if (typeof value[key] === 'boolean') {
-      next[key] = value[key] as boolean
+      next[key] = value[key] as UserSettingsSnapshot[typeof key]
     }
   })
 
