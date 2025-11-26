@@ -5,11 +5,24 @@ import Link from 'next/link'
 
 import { Container } from '@/components/Container'
 import { getRatingStyle } from '@/lib/ratingColors'
-import {
-  teachers,
-  getStateOptions,
-  getSubjectOptions,
-} from '@/lib/teachers'
+
+type TeacherSearchCard = {
+  id: string
+  slug: string
+  name: string
+  pronouns: string
+  subject: string
+  school: string
+  district: string
+  tagline: string
+  tags: string[]
+  rating: number
+  ratingCount: number
+  difficulty: number
+  wouldTakeAgain: number
+  lastReview: string
+  state: string
+}
 
 type SortOption = 'match' | 'rating' | 'difficulty' | 'recent'
 
@@ -32,8 +45,9 @@ const formatDate = (dateString: string) => {
   }
 }
 
-const states = getStateOptions()
-const subjects = getSubjectOptions()
+const teachers: TeacherSearchCard[] = []
+const states: string[] = []
+const subjects: string[] = []
 
 const SearchField = ({
   label,
@@ -224,10 +238,11 @@ export default function TeacherSearchSection() {
               Spotlight on equitable classrooms
             </h2>
           </div>
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Showing {filteredTeachers.length} of {teachers.length} profiled
-            teachers
-          </p>
+          {teachers.length > 0 && (
+            <p className="text-sm text-zinc-500 dark:text-zinc-400">
+              Showing {filteredTeachers.length} of {teachers.length} profiled teachers
+            </p>
+          )}
         </div>
 
         <div className="mt-6 grid gap-4 lg:grid-cols-3">
