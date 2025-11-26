@@ -331,6 +331,32 @@ export default function SchoolProfileClient({ slug, initialData }: SchoolProfile
     }
   }
 
+  const handleDeleteSchool = async () => {
+    if (!data) return
+    const confirmed = window.confirm(
+      `Remove ${data.school.name}? This will delete all teachers and reviews for this school.`,
+    )
+    if (!confirmed) return
+
+    setDeletingSchool(true)
+    try {
+      const response = await fetch(`/api/schools/${data.school.slug}`, {
+        method: 'DELETE',
+      })
+      if (!response.ok) {
+        const body = await response.json().catch(() => null)
+        throw new Error(body?.error ?? 'Unable to delete this school right now.')
+      }
+      router.push('/')
+      router.refresh()
+    } catch (error) {
+      window.alert(
+        error instanceof Error ? error.message : 'Unable to delete this school right now.',
+      )
+      setDeletingSchool(false)
+    }
+  }
+
   const handleSchoolFieldChange = (field: keyof SchoolDetailsFormState, value: string) => {
     setSchoolStatus(null)
     setSchoolForm((previous) => ({
@@ -991,28 +1017,3 @@ export default function SchoolProfileClient({ slug, initialData }: SchoolProfile
     </>
   )
 }
-  const handleDeleteSchool = async () => {
-    if (!data) return
-    const confirmed = window.confirm(
-      `Remove ${data.school.name}? This will delete all teachers and reviews for this school.`,
-    )
-    if (!confirmed) return
-
-    setDeletingSchool(true)
-    try {
-      const response = await fetch(`/api/schools/${data.school.slug}`, {
-        method: 'DELETE',
-      })
-      if (!response.ok) {
-        const body = await response.json().catch(() => null)
-        throw new Error(body?.error ?? 'Unable to delete this school right now.')
-      }
-      router.push('/')
-      router.refresh()
-    } catch (error) {
-      window.alert(
-        error instanceof Error ? error.message : 'Unable to delete this school right now.',
-      )
-      setDeletingSchool(false)
-    }
-  }
