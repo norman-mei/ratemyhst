@@ -1,5 +1,13 @@
+import { type Metadata } from 'next'
+
 import Analytics from '@/components/Analytics'
 import '@/styles/tailwind.css'
+
+export const metadata: Metadata = {
+  icons: {
+    icon: '/images/favicon.ico',
+  },
+}
 
 export default function RootLayout({
   children,

@@ -61,7 +61,7 @@ No secrets are required to explore the current static experience. If you decide 
 
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the development server on `http://localhost:3000` |
+| `npm run dev` | Start the development server on `http://localhost:3000` (Turbopack) |
 | `npm run build` | Create a production build |
 | `npm run start` | Run the production build locally |
 | `npm run lint` | Lint the project |
