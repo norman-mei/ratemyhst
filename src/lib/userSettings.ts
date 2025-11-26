@@ -82,7 +82,15 @@ export function normalizeSettingsPayload(
     next.language = language as LanguageChoice
   }
 
-  const booleanKeys: (keyof UserSettingsSnapshot)[] = [
+  type BooleanSettingKey =
+    | 'notifications'
+    | 'emailUpdates'
+    | 'privateProfile'
+    | 'autoSave'
+    | 'showRatings'
+    | 'compactView'
+
+  const booleanKeys: BooleanSettingKey[] = [
     'notifications',
     'emailUpdates',
     'privateProfile',
@@ -91,8 +99,9 @@ export function normalizeSettingsPayload(
     'compactView',
   ]
   booleanKeys.forEach((key) => {
-    if (typeof value[key] === 'boolean') {
-      next[key] = value[key] as UserSettingsSnapshot[typeof key]
+    const maybeBoolean = value[key]
+    if (typeof maybeBoolean === 'boolean') {
+      next[key] = maybeBoolean
     }
   })
 
