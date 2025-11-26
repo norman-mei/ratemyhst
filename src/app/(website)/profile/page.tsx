@@ -3,7 +3,7 @@
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Bookmark } from 'lucide-react'
-import { useEffect, useMemo, useState, type FormEvent } from 'react'
+import { Suspense, useEffect, useMemo, useState, type FormEvent } from 'react'
 
 import { Container } from '@/components/Container'
 import { SettingsPanelContent } from '@/components/SettingsModal'
@@ -21,7 +21,7 @@ type ProfileFormState = {
 
 type StatusMessage = { type: 'success' | 'error'; text: string } | null
 
-export default function ProfilePage() {
+function ProfileContent() {
   const router = useRouter()
   const { user, loading, refresh, logoutLocally } = useAuth()
   const { settings, updateSetting, isAuthenticated: settingsAuthed } = useUserSettings()
@@ -417,5 +417,13 @@ export default function ProfilePage() {
         )}
       </div>
     </Container>
+  )
+}
+
+export default function ProfilePage() {
+  return (
+    <Suspense fallback={null}>
+      <ProfileContent />
+    </Suspense>
   )
 }
