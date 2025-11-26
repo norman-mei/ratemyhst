@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import Link from 'next/link'
 import clsx from 'clsx'
 import { usePathname, useRouter } from 'next/navigation'
@@ -112,10 +113,18 @@ export function Header() {
       <Container>
         <div className="flex items-center justify-between py-5">
           <div className="flex items-center gap-8">
-            <Link href="/" className="text-lg font-semibold tracking-tight">
-              <span className="text-emerald-600 dark:text-emerald-400">RateMyHST</span>{' '}
-              <span className="text-zinc-800 dark:text-zinc-100">
-                {headerCopy.brandSuffix}
+            <Link href="/" className="flex items-center gap-2 text-lg font-semibold tracking-tight">
+              <Image
+                src="/images/favicon.ico"
+                alt="RateMyHST logo"
+                width={28}
+                height={28}
+                className="h-7 w-7 rounded-lg shadow-sm"
+                priority
+              />
+              <span>
+                <span className="text-emerald-600 dark:text-emerald-400">RateMyHST</span>{' '}
+                <span className="text-zinc-800 dark:text-zinc-100">{headerCopy.brandSuffix}</span>
               </span>
             </Link>
             <nav className="hidden items-center gap-6 lg:flex">
