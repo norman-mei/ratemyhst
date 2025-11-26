@@ -1,10 +1,10 @@
-import type {
-  Review,
-  SavedTeacher,
-  School,
-  SchoolReview,
+import {
   TakeAgainResponse,
-  Teacher,
+  type Review,
+  type SavedTeacher,
+  type School,
+  type SchoolReview,
+  type Teacher,
 } from '@prisma/client'
 
 import { calculateAverageRating } from '@/lib/teachers'
